@@ -1,0 +1,11 @@
+input:invalid {
+    border-color: red;
+}
+
+input:valid {
+    border-color: green
+}
+
+form {
+    margin: 20px;
+}
