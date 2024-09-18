@@ -1,23 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('myForm');
     const peopleTableBody = document.querySelector('#peopleTable tbody');
+    let editIndex = -1; 
 
-   
     function updateTable() {
-    
         peopleTableBody.innerHTML = '';
-
-       
         const people = JSON.parse(localStorage.getItem('pessoas')) || [];
 
-   
-        people.forEach(person => {
+        people.forEach((person, index) => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${person.name}</td><td>${person.dob}</td>`;
+            row.innerHTML = `
+                <td>${person.name}</td>
+                <td>${person.dob}</td>
+                <td><button class="edit-btn" data-index="${index}">Editar</button></td>
+            `;
             peopleTableBody.appendChild(row);
+        });
+
+       
+        const editButtons = document.querySelectorAll('.edit-btn');
+        editButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.getAttribute('data-index');
+                loadPersonForEdit(index);
+            });
         });
     }
 
+    function loadPersonForEdit(index) {
+        const people = JSON.parse(localStorage.getItem('pessoas')) || [];
+        const person = people[index];
+
+        document.getElementById('name').value = person.name;
+        document.getElementById('dob').value = person.dob;
+        editIndex = index;  
+    }
 
     updateTable();
 
@@ -47,19 +64,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (form.checkValidity()) {
-          
             const people = JSON.parse(localStorage.getItem('pessoas')) || [];
 
-         
-            people.push({ name, dob });
+            if (editIndex > -1) {
+              
+                people[editIndex] = { name, dob };
+                editIndex = -1; 
+            } else {
+             
+                people.push({ name, dob });
+            }
 
-       
             localStorage.setItem('pessoas', JSON.stringify(people));
 
-        
             form.reset();
-
-        
             updateTable();
 
             console.log('Nome:', name);
