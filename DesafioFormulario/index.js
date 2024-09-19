@@ -12,17 +12,27 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
                 <td>${person.name}</td>
                 <td>${person.dob}</td>
-                <td><button class="edit-btn" data-index="${index}">Editar</button></td>
+                <td>
+                    <button class="edit-btn" data-index="${index}">Editar</button>
+                    <button class="delete-btn" data-index="${index}">Excluir</button>
+                </td>
             `;
             peopleTableBody.appendChild(row);
         });
 
-       
         const editButtons = document.querySelectorAll('.edit-btn');
         editButtons.forEach(button => {
             button.addEventListener('click', (event) => {
                 const index = event.target.getAttribute('data-index');
                 loadPersonForEdit(index);
+            });
+        });
+
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const index = event.target.getAttribute('data-index');
+                deletePerson(index);
             });
         });
     }
@@ -34,6 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('name').value = person.name;
         document.getElementById('dob').value = person.dob;
         editIndex = index;  
+    }
+
+    function deletePerson(index) {
+        const people = JSON.parse(localStorage.getItem('pessoas')) || [];
+        people.splice(index, 1); // Remove a pessoa pelo índice
+        localStorage.setItem('pessoas', JSON.stringify(people));
+        updateTable(); // Atualiza a tabela
     }
 
     updateTable();
@@ -67,11 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const people = JSON.parse(localStorage.getItem('pessoas')) || [];
 
             if (editIndex > -1) {
-              
                 people[editIndex] = { name, dob };
                 editIndex = -1; 
             } else {
-             
                 people.push({ name, dob });
             }
 
