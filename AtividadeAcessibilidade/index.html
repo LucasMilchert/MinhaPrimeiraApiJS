@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pessoas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Pessoas</h1>
+    </header>
+
+    <main>
+        <form id="myForm" aria-labelledby="formTitle">
+            <h2 id="formTitle">Preencha os dados abaixo:</h2>
+            <div>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required aria-required="true">
+            </div>
+            <div>
+                <label for="dob">Data de Nascimento:</label>
+                <input type="date" id="dob" name="dob" required aria-required="true">
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <section aria-labelledby="peopleListTitle">
+            <h2 id="peopleListTitle">Lista de Pessoas Cadastradas</h2>
+            <table id="peopleTable" border="1" role="table">
+                <thead>
+                    <tr role="row">
+                        <th role="columnheader">Nome</th>
+                        <th role="columnheader">Data de Nascimento</th>
+                        <th role="columnheader">Ações</th>
+                    </tr>
+                </thead>
+                <tbody role="rowgroup">
+                    <!-- As entradas serão adicionadas aqui -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
